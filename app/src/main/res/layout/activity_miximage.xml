@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <include layout="@layout/layout_image"/>
+
+    <RelativeLayout
+        android:id="@+id/zoomImage01"
+        style="@style/item_layout">
+        <TextView
+            style="@style/tv_title"
+            android:text="mix(上)"
+        />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/zoomImage02"
+        style="@style/item_layout">
+        <TextView
+            style="@style/tv_title"
+            android:text="mix(下)"
+        />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/zoomImage03"
+        style="@style/item_layout">
+        <TextView
+            style="@style/tv_title"
+            android:text="mix(左)"
+        />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/zoomImage04"
+        style="@style/item_layout">
+        <TextView
+            style="@style/tv_title"
+            android:text="mix(右)"
+        />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/zoomImage05"
+        style="@style/item_layout">
+        <TextView
+            style="@style/tv_title"
+            android:text="mix(多张同向)"
+        />
+    </RelativeLayout>
+
+</LinearLayout>
