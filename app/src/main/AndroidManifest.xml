@@ -27,6 +27,7 @@
         <activity android:name=".test.MixImage"/>
         <activity android:name=".test.ReflectionImage"/>
         <activity android:name=".test.RoundCornerImage"/>
+        <activity android:name=".test.ImageCrop"/>
 
     </application>
 
