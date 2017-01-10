@@ -22,6 +22,7 @@
                 android:layout_marginTop="10dp"
                 android:scaleType="centerInside"
                 android:src="@mipmap/shake_result"
+                android:visibility="gone"
             />
 
             <RelativeLayout
@@ -98,6 +99,96 @@
                 <TextView
                     style="@style/tv_title"
                     android:text="reflectionImage()"
+                />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/cropImage"
+                style="@style/item_layout">
+                <TextView
+                    style="@style/tv_title"
+                    android:text="cropImage()"
+                />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rotateImage"
+                style="@style/item_layout">
+                <TextView
+                    style="@style/tv_title"
+                    android:text="rotateImageByDegree()"
+                />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/waterImage"
+                style="@style/item_layout">
+                <TextView
+                    style="@style/tv_title"
+                    android:text="waterImage()"
+                />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/toneImage"
+                style="@style/item_layout">
+                <TextView
+                    style="@style/tv_title"
+                    android:text="toneImage()"
+                />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/oldImage"
+                style="@style/item_layout">
+                <TextView
+                    style="@style/tv_title"
+                    android:text="oldImage()"
+                />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/sharpenImage"
+                style="@style/item_layout">
+                <TextView
+                    style="@style/tv_title"
+                    android:text="sharpenImage()"
+                />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/blurImage"
+                style="@style/item_layout">
+                <TextView
+                    style="@style/tv_title"
+                    android:text="blurImage()"
+                />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/skinImage"
+                style="@style/item_layout">
+                <TextView
+                    style="@style/tv_title"
+                    android:text="skinImage()"
+                />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/sketchImage"
+                style="@style/item_layout">
+                <TextView
+                    style="@style/tv_title"
+                    android:text="sketchImage()"
+                />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/compressImage"
+                style="@style/item_layout">
+                <TextView
+                    style="@style/tv_title"
+                    android:text="compressImage()"
                 />
 
             </RelativeLayout>

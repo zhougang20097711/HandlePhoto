@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 
 import com.ab.umphoto.test.GetImage;
 import com.ab.umphoto.test.GrayImage;
+import com.ab.umphoto.test.ImageActivity;
 import com.ab.umphoto.test.MergeImage;
 import com.ab.umphoto.test.MixImage;
 import com.ab.umphoto.test.ReflectionImage;
@@ -24,6 +25,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private RelativeLayout roundCornerImage;
 	private RelativeLayout grayImage;
 	private RelativeLayout reflectionImage;
+	private RelativeLayout cropImage;
+	private RelativeLayout rotateImage;
+	private RelativeLayout waterImage;
+	private RelativeLayout toneImage;
+	private RelativeLayout oldImage;
+	private RelativeLayout sharpenImage;
+	private RelativeLayout blurImage;
+	private RelativeLayout skinImage;
+	private RelativeLayout sketchImage;
+	private RelativeLayout compressImage;
 
 
 	@Override
@@ -43,6 +54,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		roundCornerImage = (RelativeLayout) findViewById(R.id.roundCornerImage);
 		grayImage = (RelativeLayout) findViewById(R.id.grayImage);
 		reflectionImage = (RelativeLayout) findViewById(R.id.reflectionImage);
+		cropImage = (RelativeLayout) findViewById(R.id.cropImage);
+		rotateImage = (RelativeLayout) findViewById(R.id.rotateImage);
+		waterImage = (RelativeLayout) findViewById(R.id.waterImage);
+		toneImage = (RelativeLayout) findViewById(R.id.toneImage);
+		oldImage = (RelativeLayout) findViewById(R.id.oldImage);
+		sharpenImage = (RelativeLayout) findViewById(R.id.sharpenImage);
+		blurImage = (RelativeLayout) findViewById(R.id.blurImage);
+		skinImage = (RelativeLayout) findViewById(R.id.skinImage);
+		sketchImage = (RelativeLayout) findViewById(R.id.sketchImage);
+		compressImage = (RelativeLayout) findViewById(R.id.compressImage);
 
 		saveimage.setOnClickListener(this);
 		getimage.setOnClickListener(this);
@@ -52,6 +73,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		roundCornerImage.setOnClickListener(this);
 		grayImage.setOnClickListener(this);
 		reflectionImage.setOnClickListener(this);
+		cropImage.setOnClickListener(this);
+		rotateImage.setOnClickListener(this);
+		waterImage.setOnClickListener(this);
+		toneImage.setOnClickListener(this);
+		oldImage.setOnClickListener(this);
+		sharpenImage.setOnClickListener(this);
+		blurImage.setOnClickListener(this);
+		skinImage.setOnClickListener(this);
+		sketchImage.setOnClickListener(this);
+		compressImage.setOnClickListener(this);
 	}
 
 	@Override
@@ -81,6 +112,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 				break;
 			case R.id.reflectionImage:
 				intent.setClass(MainActivity.this, ReflectionImage.class);
+				break;
+			case R.id.cropImage:
+				intent.setClass(MainActivity.this, ImageActivity.class);
+				intent.putExtra("position",1000);
+				break;
+			case R.id.rotateImage:
+				intent.setClass(MainActivity.this, ImageActivity.class);
+				intent.putExtra("position",1001);
+				break;
+			case R.id.waterImage:
+				intent.setClass(MainActivity.this, ImageActivity.class);
+				intent.putExtra("position",1002);
+				break;
+			case R.id.toneImage:
+				intent.setClass(MainActivity.this, ImageActivity.class);
+				intent.putExtra("position",1003);
+				break;
+			case R.id.oldImage:
+				intent.setClass(MainActivity.this, ImageActivity.class);
+				intent.putExtra("position",1004);
+				break;
+			case R.id.sharpenImage:
+				intent.setClass(MainActivity.this, ImageActivity.class);
+				intent.putExtra("position",1005);
+				break;
+			case R.id.blurImage:
+				intent.setClass(MainActivity.this, ImageActivity.class);
+				intent.putExtra("position",1006);
+				break;
+			case R.id.skinImage:
+				intent.setClass(MainActivity.this, ImageActivity.class);
+				intent.putExtra("position",1007);
+				break;
+			case R.id.sketchImage:
+				intent.setClass(MainActivity.this, ImageActivity.class);
+				intent.putExtra("position",1008);
+				break;
+			case R.id.compressImage:
+				intent.setClass(MainActivity.this, ImageActivity.class);
+				intent.putExtra("position",1009);
 				break;
 			default:
 				break;
