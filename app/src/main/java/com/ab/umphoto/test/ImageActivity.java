@@ -57,8 +57,12 @@ public class ImageActivity extends Activity {
 		imageview02 = (ImageView) findViewById(R.id.imageview02);
 		title = (TextView) findViewById(R.id.title);
 		saveimage = (RelativeLayout) findViewById(R.id.saveimage);
-		imageview01.setImageResource(R.mipmap.prd_bx_13);
 		position = getIntent().getIntExtra("position", 1000);
+		if(position == 1007){
+			imageview01.setImageResource(R.mipmap.prd_bx_15);
+		}else{
+			imageview01.setImageResource(R.mipmap.prd_bx_13);
+		}
 		switch (position){
 			case 1000:
 				title.setText("cropImage()");
@@ -96,8 +100,12 @@ public class ImageActivity extends Activity {
 			default:
 				break;
 		}
+if(position == 1007){
+	bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.prd_bx_15);
+}else{
+	bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.prd_bx_13);
+}
 
-		bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.prd_bx_13);
 		saveimage.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -114,7 +122,7 @@ public class ImageActivity extends Activity {
 								result = UMPhotoUtils.waterImageBottomCenter(bitmap,"Hello,World");
 								break;
 							case 1003:
-								result = UMPhotoUtils.saturationBitmap(bitmap,200);
+								result = UMPhotoUtils.toneBitmapHue(bitmap,200);
 								break;
 							case 1004:
 								result = UMPhotoUtils.oldImage(bitmap);
@@ -126,7 +134,7 @@ public class ImageActivity extends Activity {
 								result = UMPhotoUtils.blurImage(bitmap);
 								break;
 							case 1007:
-								result = UMPhotoUtils.skinImage(bitmap);
+								result = UMPhotoUtils.skinWhiteImage(bitmap);
 								break;
 							case 1008:
 								result = UMPhotoUtils.sketchImage(bitmap);

@@ -31,7 +31,7 @@
                 <TextView
                     android:id="@+id/tv_01"
                     style="@style/tv_title"
-                    android:text="saveImage()"
+                    android:text="saveImage()-保存图片到本地"
                 />
             </RelativeLayout>
             <RelativeLayout
@@ -40,7 +40,7 @@
                 <TextView
                     android:id="@+id/tv_02"
                     style="@style/tv_title"
-                    android:text="getImage()"
+                    android:text="getImage()-获取本地图片"
                 />
 
             </RelativeLayout>
@@ -50,7 +50,7 @@
                 <TextView
                     android:id="@+id/tv_03"
                     style="@style/tv_title"
-                    android:text="zoomScale()"
+                    android:text="zoomScale()-缩放图片"
                 />
 
             </RelativeLayout>
@@ -60,7 +60,7 @@
                 <TextView
                     android:id="@+id/tv_04"
                     style="@style/tv_title"
-                    android:text="mergeImage()"
+                    android:text="mergeImage()-贴图，水印图片，重叠图片"
                 />
 
             </RelativeLayout>
@@ -70,7 +70,7 @@
                 <TextView
                     android:id="@+id/tv_05"
                     style="@style/tv_title"
-                    android:text="mixImage()"
+                    android:text="mixImage()-拼接图片，合并"
                 />
 
             </RelativeLayout>
@@ -80,7 +80,7 @@
                 <TextView
                     android:id="@+id/tv_06"
                     style="@style/tv_title"
-                    android:text="roundCornerImage()"
+                    android:text="roundCornerImage()-圆角图片"
                 />
 
             </RelativeLayout>
@@ -89,7 +89,7 @@
                 style="@style/item_layout">
                 <TextView
                     style="@style/tv_title"
-                    android:text="grayImage()"
+                    android:text="grayImage()-灰度，黑白图片"
                 />
 
             </RelativeLayout>
@@ -98,7 +98,7 @@
                 style="@style/item_layout">
                 <TextView
                     style="@style/tv_title"
-                    android:text="reflectionImage()"
+                    android:text="reflectionImage()-图片倒影"
                 />
 
             </RelativeLayout>
@@ -107,7 +107,7 @@
                 style="@style/item_layout">
                 <TextView
                     style="@style/tv_title"
-                    android:text="cropImage()"
+                    android:text="cropImage()-裁剪图片"
                 />
 
             </RelativeLayout>
@@ -116,7 +116,7 @@
                 style="@style/item_layout">
                 <TextView
                     style="@style/tv_title"
-                    android:text="rotateImageByDegree()"
+                    android:text="rotateImageByDegree()-旋转图片"
                 />
 
             </RelativeLayout>
@@ -125,7 +125,7 @@
                 style="@style/item_layout">
                 <TextView
                     style="@style/tv_title"
-                    android:text="waterImage()"
+                    android:text="waterImage()-水印文字"
                 />
 
             </RelativeLayout>
@@ -134,7 +134,7 @@
                 style="@style/item_layout">
                 <TextView
                     style="@style/tv_title"
-                    android:text="toneImage()"
+                    android:text="toneImage()-调整图片亮度，饱和度，色相"
                 />
 
             </RelativeLayout>
@@ -143,7 +143,7 @@
                 style="@style/item_layout">
                 <TextView
                     style="@style/tv_title"
-                    android:text="oldImage()"
+                    android:text="oldImage()-怀旧效果"
                 />
 
             </RelativeLayout>
@@ -152,7 +152,7 @@
                 style="@style/item_layout">
                 <TextView
                     style="@style/tv_title"
-                    android:text="sharpenImage()"
+                    android:text="sharpenImage()-锐化效果"
                 />
 
             </RelativeLayout>
@@ -161,7 +161,7 @@
                 style="@style/item_layout">
                 <TextView
                     style="@style/tv_title"
-                    android:text="blurImage()"
+                    android:text="blurImage()-高斯模糊"
                 />
 
             </RelativeLayout>
@@ -170,7 +170,7 @@
                 style="@style/item_layout">
                 <TextView
                     style="@style/tv_title"
-                    android:text="skinImage()"
+                    android:text="skinImage()-美白效果"
                 />
 
             </RelativeLayout>
@@ -179,7 +179,7 @@
                 style="@style/item_layout">
                 <TextView
                     style="@style/tv_title"
-                    android:text="sketchImage()"
+                    android:text="sketchImage()-素描效果"
                 />
 
             </RelativeLayout>
@@ -188,7 +188,7 @@
                 style="@style/item_layout">
                 <TextView
                     style="@style/tv_title"
-                    android:text="compressImage()"
+                    android:text="compressImage()-图片压缩（图片上传用）"
                 />
 
             </RelativeLayout>
@@ -197,7 +197,7 @@
                 style="@style/item_layout">
                 <TextView
                     style="@style/tv_title"
-                    android:text="mosaicImage()"
+                    android:text="mosaicImage()-图片马赛克"
                 />
 
             </RelativeLayout>

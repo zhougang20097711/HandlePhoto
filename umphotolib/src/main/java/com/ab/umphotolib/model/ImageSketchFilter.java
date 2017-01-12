@@ -9,7 +9,7 @@ import android.util.Log;
  *
  * Created by AB051788 on 2017/1/10.
  */
-public class ImageSketch {
+public class ImageSketchFilter {
 	/**
 	 * 获取素描图片的算法
 	 * @param bmp

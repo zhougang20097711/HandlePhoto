@@ -9,7 +9,7 @@ import android.graphics.Paint;
 /**
  * Created by AB051788 on 2017/1/9.
  */
-public class ToneLayer {
+public class ToneLayerFilter {
 	private static final int MIDDLE_VALUE = 127;
 	private Bitmap bitmap;
 	private ColorMatrix mAllMatrix;
@@ -21,7 +21,7 @@ public class ToneLayer {
 	private float lum = -1.0f;
 	private float saturation = -1.0f;
 
-	public ToneLayer(Bitmap bitmap) {
+	public ToneLayerFilter(Bitmap bitmap) {
 		this.bitmap = bitmap;
 		this.mAllMatrix = new ColorMatrix();
 	}

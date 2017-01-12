@@ -17,10 +17,10 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-import com.ab.umphotolib.model.ImageSketch;
+import com.ab.umphotolib.model.ImageSketchFilter;
 import com.ab.umphotolib.model.ImageType;
-import com.ab.umphotolib.model.Imageskin;
-import com.ab.umphotolib.model.ToneLayer;
+import com.ab.umphotolib.model.SoftGlowFilter;
+import com.ab.umphotolib.model.ToneLayerFilter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -530,7 +530,7 @@ public class UMPhotoUtils {
 	 * @return
 	 */
 	public static Bitmap toneBitmap(Bitmap mBitmap,int hue,int lum,int saturation) {
-		ToneLayer layer = new ToneLayer(mBitmap);
+		ToneLayerFilter layer = new ToneLayerFilter(mBitmap);
 		layer.setHue(hue);//色相
 		layer.setLum(lum); //亮度
 		layer.setSaturation(saturation);//饱和度
@@ -544,7 +544,7 @@ public class UMPhotoUtils {
 	 * @return
 	 */
 	public static Bitmap toneBitmapSaturation(Bitmap mBitmap,int saturation){
-		ToneLayer layer = new ToneLayer(mBitmap);
+		ToneLayerFilter layer = new ToneLayerFilter(mBitmap);
 		layer.setSaturation(saturation);
 		return layer.getBitMap();
 	}
@@ -556,7 +556,7 @@ public class UMPhotoUtils {
 	 * @return
 	 */
 	public static Bitmap toneBitmapHue(Bitmap mBitmap,int hue){
-		ToneLayer layer = new ToneLayer(mBitmap);
+		ToneLayerFilter layer = new ToneLayerFilter(mBitmap);
 		layer.setHue(hue);
 		return layer.getBitMap();
 	}
@@ -568,7 +568,7 @@ public class UMPhotoUtils {
 	 * @return
 	 */
 	public static Bitmap toneBitmapLum(Bitmap mBitmap,int lum){
-		ToneLayer layer = new ToneLayer(mBitmap);
+		ToneLayerFilter layer = new ToneLayerFilter(mBitmap);
 		layer.setLum(lum);
 		return layer.getBitMap();
 	}
@@ -737,14 +737,12 @@ public class UMPhotoUtils {
 	}
 
 	/**
-	 * 美颜 没成功
-	 *
+	 * 美白效果
 	 * @param bitmap
 	 * @return
 	 */
-	public static Bitmap skinImage(Bitmap bitmap) {
-		Imageskin skin = new Imageskin(bitmap);
-		return skin.imageProcess().bitmap;
+	public static Bitmap skinWhiteImage(Bitmap bitmap) {
+		return new SoftGlowFilter(bitmap,10,0.1f,0.1f).imageProcess().getDstBitmap();
 	}
 
 	/**
@@ -753,7 +751,7 @@ public class UMPhotoUtils {
 	 * @return 返回处理后的素描
 	 */
 	public static Bitmap sketchImage(Bitmap bmp) {
-		return ImageSketch.sketchImage(bmp);
+		return ImageSketchFilter.sketchImage(bmp);
 	}
 
 
