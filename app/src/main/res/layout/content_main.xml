@@ -192,6 +192,15 @@
                 />
 
             </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/mosaicImage"
+                style="@style/item_layout">
+                <TextView
+                    style="@style/tv_title"
+                    android:text="mosaicImage()"
+                />
+
+            </RelativeLayout>
         </LinearLayout>
 
     </ScrollView>

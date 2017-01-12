@@ -525,19 +525,53 @@ public class UMPhotoUtils {
 	}
 
 	/**
-	 * 待修改
-	 *
+	 * 修改图片 色相 亮度 饱和度
 	 * @param mBitmap
 	 * @return
 	 */
-	public static Bitmap toneBitmap(Bitmap mBitmap) {
+	public static Bitmap toneBitmap(Bitmap mBitmap,int hue,int lum,int saturation) {
 		ToneLayer layer = new ToneLayer(mBitmap);
-//		layer.setHue(255);
-		layer.setLum(255);
-//		layer.setSaturation(0);
+		layer.setHue(hue);//色相
+		layer.setLum(lum); //亮度
+		layer.setSaturation(saturation);//饱和度
 		return layer.getBitMap();
 	}
 
+	/**
+	 * 修改饱和度
+	 * @param mBitmap
+	 * @param saturation
+	 * @return
+	 */
+	public static Bitmap toneBitmapSaturation(Bitmap mBitmap,int saturation){
+		ToneLayer layer = new ToneLayer(mBitmap);
+		layer.setSaturation(saturation);
+		return layer.getBitMap();
+	}
+
+	/**
+	 * 修改色相
+	 * @param mBitmap
+	 * @param hue
+	 * @return
+	 */
+	public static Bitmap toneBitmapHue(Bitmap mBitmap,int hue){
+		ToneLayer layer = new ToneLayer(mBitmap);
+		layer.setHue(hue);
+		return layer.getBitMap();
+	}
+
+	/**
+	 * 修改亮度
+	 * @param mBitmap
+	 * @param lum
+	 * @return
+	 */
+	public static Bitmap toneBitmapLum(Bitmap mBitmap,int lum){
+		ToneLayer layer = new ToneLayer(mBitmap);
+		layer.setLum(lum);
+		return layer.getBitMap();
+	}
 	/**
 	 * 怀旧效果
 	 *
@@ -721,4 +755,93 @@ public class UMPhotoUtils {
 	public static Bitmap sketchImage(Bitmap bmp) {
 		return ImageSketch.sketchImage(bmp);
 	}
+
+
+	/**
+	 *马赛克图片
+	 * @param bitmap
+	 * @param targetRect
+	 * @param blockSize
+	 * @return
+	 * @throws Exception
+	 */
+	public static Bitmap mosaicImage(Bitmap bitmap, Rect targetRect,
+									int blockSize) throws OutOfMemoryError {
+		if (bitmap == null || bitmap.getWidth() == 0 || bitmap.getHeight() == 0
+				|| bitmap.isRecycled()) {
+			throw new RuntimeException("bad bitmap to add mosaic");
+		}
+		if (blockSize < 4) {
+			blockSize = 4;//最小区域
+		}
+		if (targetRect == null) {
+			targetRect = new Rect();
+		}
+		int bw = bitmap.getWidth();
+		int bh = bitmap.getHeight();
+		if (targetRect.isEmpty()) {
+			targetRect.set(0, 0, bw, bh);
+		}
+		//
+		int rectW = targetRect.width();
+		int rectH = targetRect.height();
+		int[] bitmapPxs = new int[bw * bh];
+		// fetch bitmap pxs
+		bitmap.getPixels(bitmapPxs, 0, bw, 0, 0, bw, bh);
+		//
+		int rowCount = (int) Math.ceil((float) rectH / blockSize);
+		int columnCount = (int) Math.ceil((float) rectW / blockSize);
+		int maxX = bw;
+		int maxY = bh;
+		for (int r = 0; r < rowCount; r++) { // row loop
+			for (int c = 0; c < columnCount; c++) {// column loop
+				int startX = targetRect.left + c * blockSize + 1;
+				int startY = targetRect.top + r * blockSize + 1;
+				dimBlock(bitmapPxs, startX, startY, blockSize, maxX, maxY);
+			}
+		}
+		return Bitmap.createBitmap(bitmapPxs, bw, bh, Bitmap.Config.ARGB_8888);
+	}
+
+	/**
+	 * 从块内取样，并放大，从而达到马赛克的模糊效果
+	 *
+	 * @param pxs
+	 * @param startX
+	 * @param startY
+	 * @param blockSize
+	 * @param maxX
+	 * @param maxY
+	 */
+	private static void dimBlock(int[] pxs, int startX, int startY,
+								 int blockSize, int maxX, int maxY) {
+		int stopX = startX + blockSize - 1;
+		int stopY = startY + blockSize - 1;
+		if (stopX > maxX) {
+			stopX = maxX;
+		}
+		if (stopY > maxY) {
+			stopY = maxY;
+		}
+		//
+		int sampleColorX = startX + blockSize / 2;
+		int sampleColorY = startY + blockSize / 2;
+		//
+		if (sampleColorX > maxX) {
+			sampleColorX = maxX;
+		}
+		if (sampleColorY > maxY) {
+			sampleColorY = maxY;
+		}
+		int colorLinePosition = (sampleColorY - 1) * maxX;
+		int sampleColor = pxs[colorLinePosition + sampleColorX - 1];// 像素从1开始，但是数组层0开始
+		for (int y = startY; y <= stopY; y++) {
+			int p = (y - 1) * maxX;
+			for (int x = startX; x <= stopX; x++) {
+				// 像素从1开始，但是数组层0开始
+				pxs[p + x - 1] = sampleColor;
+			}
+		}
+	}
+
 }

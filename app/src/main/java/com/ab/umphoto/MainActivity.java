@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private RelativeLayout skinImage;
 	private RelativeLayout sketchImage;
 	private RelativeLayout compressImage;
+	private RelativeLayout mosaicImage;
 
 
 	@Override
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		skinImage = (RelativeLayout) findViewById(R.id.skinImage);
 		sketchImage = (RelativeLayout) findViewById(R.id.sketchImage);
 		compressImage = (RelativeLayout) findViewById(R.id.compressImage);
+		mosaicImage = (RelativeLayout) findViewById(R.id.mosaicImage);
 
 		saveimage.setOnClickListener(this);
 		getimage.setOnClickListener(this);
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		skinImage.setOnClickListener(this);
 		sketchImage.setOnClickListener(this);
 		compressImage.setOnClickListener(this);
+		mosaicImage.setOnClickListener(this);
 	}
 
 	@Override
@@ -152,6 +155,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			case R.id.compressImage:
 				intent.setClass(MainActivity.this, ImageActivity.class);
 				intent.putExtra("position",1009);
+				break;
+			case R.id.mosaicImage:
+				intent.setClass(MainActivity.this, ImageActivity.class);
+				intent.putExtra("position",1010);
 				break;
 			default:
 				break;

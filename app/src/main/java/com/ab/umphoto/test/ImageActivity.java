@@ -3,6 +3,7 @@ package com.ab.umphoto.test;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -89,6 +90,9 @@ public class ImageActivity extends Activity {
 			case 1009:
 				title.setText("compressImage()");
 				break;
+			case 1010:
+				title.setText("mosaicImage()");
+				break;
 			default:
 				break;
 		}
@@ -110,7 +114,7 @@ public class ImageActivity extends Activity {
 								result = UMPhotoUtils.waterImageBottomCenter(bitmap,"Hello,World");
 								break;
 							case 1003:
-								result = UMPhotoUtils.toneBitmap(bitmap);
+								result = UMPhotoUtils.saturationBitmap(bitmap,200);
 								break;
 							case 1004:
 								result = UMPhotoUtils.oldImage(bitmap);
@@ -129,6 +133,9 @@ public class ImageActivity extends Activity {
 								break;
 							case 1009:
 								result = UMPhotoUtils.compressImage(bitmap,2);
+								break;
+							case 1010:
+								result = UMPhotoUtils.mosaicImage(bitmap,new Rect(300,100,400,200),10);
 								break;
 							default:
 								break;
