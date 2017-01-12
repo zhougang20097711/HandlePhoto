@@ -201,6 +201,15 @@
                 />
 
             </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/filterBitmapByColorMatrix"
+                style="@style/item_layout">
+                <TextView
+                    style="@style/tv_title"
+                    android:text="filterBitmapByColorMatrix()-通过颜色矩阵生成各种效果"
+                />
+
+            </RelativeLayout>
         </LinearLayout>
 
     </ScrollView>

@@ -1,4 +1,4 @@
-package com.ab.umphotolib.model;
+package com.ab.umphotolib.filter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -6,7 +6,7 @@ import java.io.InputStream;
 /**
  * Created by AB051788 on 2017/1/4.
  */
-public class ImageType {
+public class ImageTypeFilter {
 	public static final String PNG = "PNG";
 	public static final String JPEG = "JPEG";
 	public static final String GIF = "GIF";

@@ -28,6 +28,7 @@
         <activity android:name=".test.ReflectionImage"/>
         <activity android:name=".test.RoundCornerImage"/>
         <activity android:name=".test.ImageActivity"/>
+        <activity android:name=".test.FilterBitmap"/>
 
     </application>
 

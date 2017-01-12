@@ -1,12 +1,15 @@
-package com.ab.umphotolib.model;
+package com.ab.umphotolib.filter;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
 /**
+ * 像素矩阵的颜色值控制
+ * 通过修改像素矩阵中对应位置的颜色值
+ * pixelsArray
  * Created by AB051788 on 2017/1/10.
  */
-public class ImageHandler {
+public class ImagePixelsArrayHandle {
 	private Bitmap srcBitmap;
 	private Bitmap dstBitmap;
 
@@ -15,7 +18,7 @@ public class ImageHandler {
 
 	protected int[] colorArray;
 
-	public ImageHandler(Bitmap bmp) {
+	public ImagePixelsArrayHandle(Bitmap bmp) {
 		srcBitmap = bmp;
 		width = bmp.getWidth();
 		height = bmp.getHeight();
@@ -23,8 +26,8 @@ public class ImageHandler {
 		initColorArray();
 	}
 
-	public ImageHandler clone() {
-		return new ImageHandler(this.srcBitmap);
+	public ImagePixelsArrayHandle clone() {
+		return new ImagePixelsArrayHandle(this.srcBitmap);
 	}
 
 	private void initColorArray() {
@@ -77,6 +80,10 @@ public class ImageHandler {
 		return colorArray;
 	}
 
+	/**
+	 * 获取改变结果的图片
+	 * @return
+	 */
 	public Bitmap getDstBitmap() {
 		dstBitmap.setPixels(colorArray, 0, width, 0, 0, width, height);
 		return dstBitmap;

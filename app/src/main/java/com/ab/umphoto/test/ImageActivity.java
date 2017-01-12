@@ -131,7 +131,7 @@ if(position == 1007){
 								result = UMPhotoUtils.sharpenImage(bitmap);
 								break;
 							case 1006:
-								result = UMPhotoUtils.blurImage(bitmap);
+								result = UMPhotoUtils.blurImage(bitmap,5);
 								break;
 							case 1007:
 								result = UMPhotoUtils.skinWhiteImage(bitmap);

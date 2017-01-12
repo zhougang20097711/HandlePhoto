@@ -1,4 +1,4 @@
-package com.ab.umphotolib.model;
+package com.ab.umphotolib.filter;
 
 import android.graphics.Bitmap;
 
@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
  */
 public class BrightContrastFilter {
 
-	private ImageHandler image = null;
+	private ImagePixelsArrayHandle image = null;
 
 	public float BrightnessFactor = 0.25f;
 
@@ -17,15 +17,15 @@ public class BrightContrastFilter {
 	public float ContrastFactor = 0f;
 
 	public BrightContrastFilter(Bitmap bmp) {
-		image = new ImageHandler(bmp);
+		image = new ImagePixelsArrayHandle(bmp);
 	}
 
-	public BrightContrastFilter(ImageHandler image) {
+	public BrightContrastFilter(ImagePixelsArrayHandle image) {
 		this.image = image;
 	}
 
 
-	public ImageHandler imageProcess() {
+	public ImagePixelsArrayHandle imageProcess() {
 		int width = image.getWidth();
 		int height = image.getHeight();
 		int r, g, b;

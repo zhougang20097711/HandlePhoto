@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.ab.umphoto.test.FilterBitmap;
 import com.ab.umphoto.test.GetImage;
 import com.ab.umphoto.test.GrayImage;
 import com.ab.umphoto.test.ImageActivity;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private RelativeLayout sketchImage;
 	private RelativeLayout compressImage;
 	private RelativeLayout mosaicImage;
+	private RelativeLayout filterBitmapByColorMatrix;
 
 
 	@Override
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		sketchImage = (RelativeLayout) findViewById(R.id.sketchImage);
 		compressImage = (RelativeLayout) findViewById(R.id.compressImage);
 		mosaicImage = (RelativeLayout) findViewById(R.id.mosaicImage);
+		filterBitmapByColorMatrix = (RelativeLayout) findViewById(R.id.filterBitmapByColorMatrix);
 
 		saveimage.setOnClickListener(this);
 		getimage.setOnClickListener(this);
@@ -86,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		sketchImage.setOnClickListener(this);
 		compressImage.setOnClickListener(this);
 		mosaicImage.setOnClickListener(this);
+		filterBitmapByColorMatrix.setOnClickListener(this);
 	}
 
 	@Override
@@ -160,10 +164,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 				intent.setClass(MainActivity.this, ImageActivity.class);
 				intent.putExtra("position",1010);
 				break;
+			case R.id.filterBitmapByColorMatrix:
+				intent.setClass(MainActivity.this, FilterBitmap.class);
+				break;
 			default:
 				break;
 		}
-
 		startActivity(intent);
 	}
 }

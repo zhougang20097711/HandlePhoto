@@ -4,8 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -17,10 +15,12 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-import com.ab.umphotolib.model.ImageSketchFilter;
-import com.ab.umphotolib.model.ImageType;
-import com.ab.umphotolib.model.SoftGlowFilter;
-import com.ab.umphotolib.model.ToneLayerFilter;
+import com.ab.umphotolib.filter.GaussianBlurFilter;
+import com.ab.umphotolib.filter.ImagePixelsArrayHandle;
+import com.ab.umphotolib.filter.ImageSketchFilter;
+import com.ab.umphotolib.filter.ImageTypeFilter;
+import com.ab.umphotolib.filter.SoftGlowFilter;
+import com.ab.umphotolib.filter.ColorMatrixFilter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -34,6 +34,9 @@ import java.io.InputStream;
  * Created by AB051788 on 2017/1/3.
  */
 public class UMPhotoUtils {
+	/**
+	 * 图片拼接的方向
+	 */
 	public static final int LEFT = 0;
 	public static final int RIGHT = 1;
 	public static final int TOP = 2;
@@ -108,7 +111,7 @@ public class UMPhotoUtils {
 	 * @param drawable
 	 * @return
 	 */
-	public static Bitmap drawableToBitmapByBD(Drawable drawable) {
+	public static Bitmap drawableToBitmap(Drawable drawable) {
 		BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
 		return bitmapDrawable.getBitmap();
 	}
@@ -119,7 +122,7 @@ public class UMPhotoUtils {
 	 * @param bitmap
 	 * @return
 	 */
-	public static Drawable bitmapToDrawableByBD(Bitmap bitmap) {
+	public static Drawable bitmapToDrawable(Bitmap bitmap) {
 		Drawable drawable = new BitmapDrawable(bitmap);
 		return drawable;
 	}
@@ -149,8 +152,6 @@ public class UMPhotoUtils {
 		bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
 		return baos.toByteArray();
 	}
-
-
 	/**
 	 * 获取图片类型
 	 *
@@ -183,16 +184,16 @@ public class UMPhotoUtils {
 	 * @return PNG JEPG GIF BMP
 	 */
 	public static String getImageType(InputStream in) {
-		return ImageType.getImageType(in);
+		return ImageTypeFilter.getImageType(in);
 	}
 
 
 	/**
-	 * 放大缩小图片
+	 * 图片缩放  按照宽或高等比缩放
 	 *
-	 * @param bitmap
-	 * @param w
-	 * @param h
+	 * @param bitmap  图片
+	 * @param w   缩放宽度
+	 * @param h   缩放高度
 	 * @return
 	 */
 	public static Bitmap zoomImage(Bitmap bitmap, int w, int h) {
@@ -213,10 +214,10 @@ public class UMPhotoUtils {
 	}
 
 	/**
-	 * 图片缩放
+	 * 图片缩放  设置等比缩放比例
 	 *
-	 * @param bitmap
-	 * @param scale
+	 * @param bitmap  图片
+	 * @param scale  缩放比例
 	 * @return
 	 */
 	public static Bitmap zoomImage(Bitmap bitmap, float scale) {
@@ -224,11 +225,11 @@ public class UMPhotoUtils {
 	}
 
 	/**
-	 * 图片缩放
+	 * 图片缩放  分别设置宽高缩放比例
 	 *
-	 * @param bitmap
-	 * @param scaleWidht
-	 * @param scaleHeight
+	 * @param bitmap  图片
+	 * @param scaleWidht  宽缩放比例
+	 * @param scaleHeight  高缩放比例
 	 * @return
 	 */
 	public static Bitmap zoomImage(Bitmap bitmap, float scaleWidht, float scaleHeight) {
@@ -243,7 +244,7 @@ public class UMPhotoUtils {
 
 	/**
 	 * 压缩图片 以图片质量为代价 可用于图片上传
-	 * @param bitmap
+	 * @param bitmap  图片
 	 * @param sizeKB  压缩到指定大小以下
 	 * @return  返回压缩后的图片
 	 */
@@ -254,7 +255,7 @@ public class UMPhotoUtils {
 
 	/**
 	 *  压缩图片 以图片质量为代价 根据具体上传需要定制
-	 * @param bitmap
+	 * @param bitmap  图片
 	 * @param sizeKB  压缩到指定大小以下
 	 * @return  返回压缩后的数据流
 	 */
@@ -274,9 +275,8 @@ public class UMPhotoUtils {
 	}
 	/**
 	 * 图片旋转
-	 *
-	 * @param bitmap
-	 * @param degree
+	 * @param bitmap  图片
+	 * @param degree  旋转角度
 	 * @return
 	 */
 	public static Bitmap rotateImageByDegree(Bitmap bitmap, int degree) {
@@ -302,6 +302,26 @@ public class UMPhotoUtils {
 	}
 
 	/**
+	 * 水印文字 图片下方水平居中  可根据具体场景定制方法
+	 *
+	 * @param bitmap  图片
+	 * @param message 文字
+	 * @return
+	 */
+	public static Bitmap waterImageBottomCenter(Bitmap bitmap, String message) {
+		Paint paint = new Paint();
+		paint.setColor(Color.LTGRAY);
+		paint.setTextSize(30);
+		paint.setTextAlign(Paint.Align.CENTER);
+		if (bitmap == null) {
+			return null;
+		}
+		int x = bitmap.getWidth() / 2;
+		int y = bitmap.getHeight() - 15;
+		return waterImage(bitmap, message, x, y, paint);
+	}
+
+	/**
 	 * 水印文字 方法
 	 *
 	 * @param bitmap  原图
@@ -324,26 +344,6 @@ public class UMPhotoUtils {
 		canvas.save(Canvas.ALL_SAVE_FLAG);
 		canvas.restore();
 		return newb;
-	}
-
-	/**
-	 * 水印文字 图片下方水平居中  可根据具体场景定制方法
-	 *
-	 * @param bitmap  图片
-	 * @param message 文字
-	 * @return
-	 */
-	public static Bitmap waterImageBottomCenter(Bitmap bitmap, String message) {
-		Paint paint = new Paint();
-		paint.setColor(Color.LTGRAY);
-		paint.setTextSize(30);
-		paint.setTextAlign(Paint.Align.CENTER);
-		if (bitmap == null) {
-			return null;
-		}
-		int x = bitmap.getWidth() / 2;
-		int y = bitmap.getHeight() - 15;
-		return waterImage(bitmap, message, x, y, paint);
 	}
 
 	/**
@@ -378,7 +378,6 @@ public class UMPhotoUtils {
 
 	/**
 	 * 同方向多图片合成
-	 *
 	 * @param direction 拼接方向 UMPhotoUtils.LEFT RIGHT TOP BOTTOM
 	 * @param bitmaps
 	 * @return
@@ -466,33 +465,10 @@ public class UMPhotoUtils {
 		return output;
 	}
 
-
-	/**
-	 * 黑白图片 灰度图片
-	 *
-	 * @param bitmap 传入的图片
-	 * @return 去色后的图片
-	 */
-	public static Bitmap grayImage(Bitmap bitmap) {
-		int width, height;
-		height = bitmap.getHeight();
-		width = bitmap.getWidth();
-		Bitmap bmpGrayscale = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-		Canvas c = new Canvas(bmpGrayscale);
-		Paint paint = new Paint();
-		ColorMatrix cm = new ColorMatrix();
-		cm.setSaturation(0);
-		ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
-		paint.setColorFilter(f);
-		c.drawBitmap(bitmap, 0, 0, paint);
-		return bmpGrayscale;
-	}
-
-
 	/**
 	 * 获得带倒影的图片方法
 	 *
-	 * @param bitmap
+	 * @param bitmap 图片
 	 * @return
 	 */
 	public static Bitmap reflectionImage(Bitmap bitmap) {
@@ -530,7 +506,7 @@ public class UMPhotoUtils {
 	 * @return
 	 */
 	public static Bitmap toneBitmap(Bitmap mBitmap,int hue,int lum,int saturation) {
-		ToneLayerFilter layer = new ToneLayerFilter(mBitmap);
+		ColorMatrixFilter layer = new ColorMatrixFilter(mBitmap);
 		layer.setHue(hue);//色相
 		layer.setLum(lum); //亮度
 		layer.setSaturation(saturation);//饱和度
@@ -544,7 +520,7 @@ public class UMPhotoUtils {
 	 * @return
 	 */
 	public static Bitmap toneBitmapSaturation(Bitmap mBitmap,int saturation){
-		ToneLayerFilter layer = new ToneLayerFilter(mBitmap);
+		ColorMatrixFilter layer = new ColorMatrixFilter(mBitmap);
 		layer.setSaturation(saturation);
 		return layer.getBitMap();
 	}
@@ -556,7 +532,7 @@ public class UMPhotoUtils {
 	 * @return
 	 */
 	public static Bitmap toneBitmapHue(Bitmap mBitmap,int hue){
-		ToneLayerFilter layer = new ToneLayerFilter(mBitmap);
+		ColorMatrixFilter layer = new ColorMatrixFilter(mBitmap);
 		layer.setHue(hue);
 		return layer.getBitMap();
 	}
@@ -568,10 +544,22 @@ public class UMPhotoUtils {
 	 * @return
 	 */
 	public static Bitmap toneBitmapLum(Bitmap mBitmap,int lum){
-		ToneLayerFilter layer = new ToneLayerFilter(mBitmap);
+		ColorMatrixFilter layer = new ColorMatrixFilter(mBitmap);
 		layer.setLum(lum);
 		return layer.getBitMap();
 	}
+
+	/**
+	 * 黑白图片 灰度图片
+	 *
+	 * @param bitmap 传入的图片
+	 * @return 去色后的图片
+	 */
+	public static Bitmap grayImage(Bitmap bitmap) {
+		//修改图片饱和度
+		return toneBitmapSaturation(bitmap,0);
+	}
+
 	/**
 	 * 怀旧效果
 	 *
@@ -579,161 +567,83 @@ public class UMPhotoUtils {
 	 * @return
 	 */
 	public static Bitmap oldImage(Bitmap bitmap) {
-		int width = bitmap.getWidth();
-		int height = bitmap.getHeight();
-		Bitmap bm = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-		int pixColor = 0;
+		ImagePixelsArrayHandle pixelsArrayHandle = new ImagePixelsArrayHandle(bitmap);
+		int width = pixelsArrayHandle.getWidth();
+		int height = pixelsArrayHandle.getHeight();
 		int pixR = 0;
 		int pixG = 0;
 		int pixB = 0;
 		int newR = 0;
 		int newG = 0;
 		int newB = 0;
-		int[] pixels = new int[width * height];
-		bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
 		for (int i = 0; i < height; i++) {
 			for (int k = 0; k < width; k++) {
-				pixColor = pixels[width * i + k];
-				pixR = Color.red(pixColor);
-				pixG = Color.green(pixColor);
-				pixB = Color.blue(pixColor);
+				pixR = pixelsArrayHandle.getRComponent(k,i);
+				pixG = pixelsArrayHandle.getGComponent(k,i);
+				pixB = pixelsArrayHandle.getBComponent(k,i);
 				newR = (int) (0.393 * pixR + 0.769 * pixG + 0.189 * pixB);
 				newG = (int) (0.349 * pixR + 0.686 * pixG + 0.168 * pixB);
 				newB = (int) (0.272 * pixR + 0.534 * pixG + 0.131 * pixB);
 				int newColor = Color.argb(255, newR > 255 ? 255 : newR, newG > 255 ? 255 : newG, newB > 255 ? 255 : newB);
-				pixels[width * i + k] = newColor;
+				pixelsArrayHandle.setPixelColor(k,i,newColor);
 			}
 		}
-		bm.setPixels(pixels, 0, width, 0, 0, width, height);
-		return bm;
+		return pixelsArrayHandle.getDstBitmap();
 	}
 
 
 	/**
 	 * 图片锐化（拉普拉斯变换）
-	 *
 	 * @param bmp
 	 * @return
 	 */
 	public static Bitmap sharpenImage(Bitmap bmp) {
 		// 拉普拉斯矩阵
 		int[] laplacian = new int[]{-1, -1, -1, -1, 9, -1, -1, -1, -1};
-
-		int width = bmp.getWidth();
-		int height = bmp.getHeight();
-		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-
+		ImagePixelsArrayHandle pixelsArrayHandle = new ImagePixelsArrayHandle(bmp);
+		int width = pixelsArrayHandle.getWidth();
+		int height = pixelsArrayHandle.getHeight();
 		int pixR = 0;
 		int pixG = 0;
 		int pixB = 0;
-
-		int pixColor = 0;
-
 		int newR = 0;
 		int newG = 0;
 		int newB = 0;
-
 		int idx = 0;
 		float alpha = 0.3F;
-		int[] pixels = new int[width * height];
-		bmp.getPixels(pixels, 0, width, 0, 0, width, height);
 		for (int i = 1, length = height - 1; i < length; i++) {
 			for (int k = 1, len = width - 1; k < len; k++) {
 				idx = 0;
 				for (int m = -1; m <= 1; m++) {
 					for (int n = -1; n <= 1; n++) {
-						pixColor = pixels[(i + n) * width + k + m];
-						pixR = Color.red(pixColor);
-						pixG = Color.green(pixColor);
-						pixB = Color.blue(pixColor);
-
+						pixR = pixelsArrayHandle.getRComponent(k+m,i+n);
+						pixG = pixelsArrayHandle.getGComponent(k+m,i+n);
+						pixB = pixelsArrayHandle.getBComponent(k+m,i+n);
 						newR = newR + (int) (pixR * laplacian[idx] * alpha);
 						newG = newG + (int) (pixG * laplacian[idx] * alpha);
 						newB = newB + (int) (pixB * laplacian[idx] * alpha);
 						idx++;
 					}
 				}
-
-				newR = Math.min(255, Math.max(0, newR));
-				newG = Math.min(255, Math.max(0, newG));
-				newB = Math.min(255, Math.max(0, newB));
-
-				pixels[i * width + k] = Color.argb(255, newR, newG, newB);
+				pixelsArrayHandle.setPixelColor(k,i,Color.argb(255, Math.min(255, Math.max(0, newR)), Math.min(255, Math.max(0, newG)), Math.min(255, Math.max(0, newB))));
 				newR = 0;
 				newG = 0;
 				newB = 0;
 			}
 		}
-		bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-		long end = System.currentTimeMillis();
-		return bitmap;
+		return pixelsArrayHandle.getDstBitmap();
 	}
-
 
 	/**
 	 * 高斯模糊 -柔化效果
-	 *
-	 * @param bmp
+	 * @param bmp 图片
+	 * @param sigma [0, 40] 模糊整的
 	 * @return
 	 */
-	public static Bitmap blurImage(Bitmap bmp) {
-		// 高斯矩阵
-		int[] gauss = new int[]{1, 2, 1, 2, 4, 2, 1, 2, 1};
-
-		int width = bmp.getWidth();
-		int height = bmp.getHeight();
-		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-
-		int pixR = 0;
-		int pixG = 0;
-		int pixB = 0;
-
-		int pixColor = 0;
-
-		int newR = 0;
-		int newG = 0;
-		int newB = 0;
-
-		int delta = 16; // 值越小图片会越亮，越大则越暗
-
-		int idx = 0;
-		int[] pixels = new int[width * height];
-		bmp.getPixels(pixels, 0, width, 0, 0, width, height);
-		for (int i = 1, length = height - 1; i < length; i++) {
-			for (int k = 1, len = width - 1; k < len; k++) {
-				idx = 0;
-				for (int m = -1; m <= 1; m++) {
-					for (int n = -1; n <= 1; n++) {
-						pixColor = pixels[(i + m) * width + k + n];
-						pixR = Color.red(pixColor);
-						pixG = Color.green(pixColor);
-						pixB = Color.blue(pixColor);
-
-						newR = newR + (int) (pixR * gauss[idx]);
-						newG = newG + (int) (pixG * gauss[idx]);
-						newB = newB + (int) (pixB * gauss[idx]);
-						idx++;
-					}
-				}
-
-				newR /= delta;
-				newG /= delta;
-				newB /= delta;
-
-				newR = Math.min(255, Math.max(0, newR));
-				newG = Math.min(255, Math.max(0, newG));
-				newB = Math.min(255, Math.max(0, newB));
-
-				pixels[i * width + k] = Color.argb(255, newR, newG, newB);
-
-				newR = 0;
-				newG = 0;
-				newB = 0;
-			}
-		}
-
-		bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-		return bitmap;
+	public static Bitmap blurImage(Bitmap bmp,float sigma) {
+		GaussianBlurFilter gaussianBlurFilter = new GaussianBlurFilter(bmp);
+		gaussianBlurFilter.Sigma =sigma;
+		return gaussianBlurFilter.imageProcess().getDstBitmap();
 	}
 
 	/**
@@ -754,12 +664,35 @@ public class UMPhotoUtils {
 		return ImageSketchFilter.sketchImage(bmp);
 	}
 
+	/**
+	 * 通过改变颜色矩阵获取各种效果
+	 * @param bitmap 原图
+	 * @param array  矩阵
+	 * 泛黄效果
+	 * array1 = {1, 0, 0, 0, 100, 0, 1, 0, 0, 100, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0};
+	//灰度效果：
+	float[] array2 = {0.33F, 0.59F, 0.11F, 0, 0, 0.33F, 0.59F, 0.11F, 0, 0, 0.33F, 0.59F, 0.11F, 0, 0, 0, 0, 0, 1, 0};
+	//图像反转：
+	float[] array3 = {-1, 0, 0, 1, 1, 0, -1, 0, 1, 1, 0, 0, -1, 1, 1, 0, 0, 0, 1, 0};
+	//怀旧效果：
+	float[] array4 = {0.393F, 0.769F, 0.189F, 0, 0, 0.349F, 0.686F, 0.168F, 0, 0, 0.272F, 0.534F, 0.131F, 0, 0, 0, 0, 0, 1, 0};
+	//去色效果：
+	float[] array5 = {1.5F, 1.5F, 1.5F, 0, -1, 1.5F, 1.5F, 1.5F, 0, -1, 1.5F, 1.5F, 1.5F, 0, -1, 0, 0, 0, 1, 0};
+	//高饱和度：
+	float[] array6 = {1.438F, -0.122F, -0.016F, 0, -0.03F, -0.062F, 1.378F, -0.016F, 0, 0.05F, -0.062F, -0.122F, 1.483F, 0, -0.02F, 0, 0, 0, 1, 0};
+	 * @return
+	 */
+	public static Bitmap filterBitmapByColorMatrix(Bitmap bitmap,float[] array){
+		ColorMatrixFilter filter = new ColorMatrixFilter(bitmap);
+		return filter.changeBitmapByArray(array);
+	}
+
 
 	/**
 	 *马赛克图片
-	 * @param bitmap
-	 * @param targetRect
-	 * @param blockSize
+	 * @param bitmap 原图
+	 * @param targetRect 位置
+	 * @param blockSize 区域
 	 * @return
 	 * @throws Exception
 	 */

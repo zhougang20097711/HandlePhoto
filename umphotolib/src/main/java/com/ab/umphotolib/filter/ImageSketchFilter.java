@@ -1,4 +1,4 @@
-package com.ab.umphotolib.model;
+package com.ab.umphotolib.filter;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;

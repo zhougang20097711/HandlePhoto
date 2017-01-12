@@ -1,4 +1,4 @@
-package com.ab.umphotolib.model;
+package com.ab.umphotolib.filter;
 
 import android.graphics.Bitmap;
 
@@ -15,10 +15,10 @@ public class GaussianBlurFilter {
 	// / </summary>
 	public float Sigma = 0.75f;
 
-	private ImageHandler image = null;
+	private ImagePixelsArrayHandle image = null;
 
 	public GaussianBlurFilter(Bitmap bmp) {
-		image = new ImageHandler(bmp);
+		image = new ImagePixelsArrayHandle(bmp);
 	}
 
 	float[] ApplyBlur(float[] srcPixels, int width, int height) {
@@ -92,7 +92,7 @@ public class GaussianBlurFilter {
 		}
 	}
 
-	float[] ConvertImageWithPadding(ImageHandler imageIn, int width, int height) {
+	float[] ConvertImageWithPadding(ImagePixelsArrayHandle imageIn, int width, int height) {
 		int newheight = height + Padding * 2;
 		int newwidth = width + Padding * 2;
 		float[] numArray = new float[(newheight * newwidth) * 3];
@@ -127,7 +127,7 @@ public class GaussianBlurFilter {
 		return numArray;
 	}
 
-	public ImageHandler imageProcess() {
+	public ImagePixelsArrayHandle imageProcess() {
 		int width = image.getWidth();
 		int height = image.getHeight();
 		float[] imageArray = ConvertImageWithPadding(image, width, height);

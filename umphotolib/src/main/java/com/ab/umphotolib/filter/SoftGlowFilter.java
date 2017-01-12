@@ -1,4 +1,4 @@
-package com.ab.umphotolib.model;
+package com.ab.umphotolib.filter;
 
 import android.graphics.Bitmap;
 
@@ -9,28 +9,28 @@ public class SoftGlowFilter {
 	BrightContrastFilter contrastFx;
 
 	GaussianBlurFilter gaussianBlurFx;
-	private ImageHandler image = null;
+	private ImagePixelsArrayHandle image = null;
 
 
 	public SoftGlowFilter(Bitmap bmp) {
-		image = new ImageHandler(bmp);
+		image = new ImagePixelsArrayHandle(bmp);
 	}
 
 	public SoftGlowFilter(Bitmap bmp, int nSigma, float nBrightness, float nContrast) {
 		gaussianBlurFx = new GaussianBlurFilter(bmp);
 		gaussianBlurFx.Sigma = nSigma;
-		image = gaussianBlurFx.imageProcess(); // �ữ����
+		image = gaussianBlurFx.imageProcess();
 		contrastFx = new BrightContrastFilter(image);
 		contrastFx.BrightnessFactor = nBrightness;
 		contrastFx.ContrastFactor = nContrast;
 
-		image = contrastFx.imageProcess(); //  �����Աȶ�
+		image = contrastFx.imageProcess();
 	}
 
-	public ImageHandler imageProcess() {
+	public ImagePixelsArrayHandle imageProcess() {
 		int width = image.getWidth();
 		int height = image.getHeight();
-		ImageHandler clone = image.clone();
+		ImagePixelsArrayHandle clone = image.clone();
 		int old_r, old_g, old_b, r, g, b;
 		for (int x = 0; x < (width - 1); x++) {
 			for (int y = 0; y < (height - 1); y++) {

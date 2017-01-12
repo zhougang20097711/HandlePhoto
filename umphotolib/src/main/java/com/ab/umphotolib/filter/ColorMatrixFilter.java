@@ -1,4 +1,4 @@
-package com.ab.umphotolib.model;
+package com.ab.umphotolib.filter;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,7 +9,7 @@ import android.graphics.Paint;
 /**
  * Created by AB051788 on 2017/1/9.
  */
-public class ToneLayerFilter {
+public class ColorMatrixFilter {
 	private static final int MIDDLE_VALUE = 127;
 	private Bitmap bitmap;
 	private ColorMatrix mAllMatrix;
@@ -21,11 +21,27 @@ public class ToneLayerFilter {
 	private float lum = -1.0f;
 	private float saturation = -1.0f;
 
-	public ToneLayerFilter(Bitmap bitmap) {
+	public ColorMatrixFilter(Bitmap bitmap) {
 		this.bitmap = bitmap;
 		this.mAllMatrix = new ColorMatrix();
 	}
 
+	/**
+	 * 通过矩阵 改变
+	 * @param array
+	 * @return
+	 */
+	public Bitmap changeBitmapByArray(float[] array){
+		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+				bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(output);
+		Paint paint = new Paint();
+		ColorMatrix cm = new ColorMatrix();
+		cm.set(array);
+		paint.setColorFilter(new ColorMatrixColorFilter(cm));
+		canvas.drawBitmap(bitmap, 0, 0, paint);
+		return output;
+	}
 	/**
 	 * 设置色相值  0-255
 	 */
@@ -58,7 +74,7 @@ public class ToneLayerFilter {
 
 		//色相调节
 		ColorMatrix hueMatrix = new ColorMatrix();
-		if(hue>0){
+		if(hue>=0){
 			hueMatrix.setRotate(0, hue);
 			hueMatrix.setRotate(1, hue);
 			hueMatrix.setRotate(2, hue);
@@ -67,13 +83,13 @@ public class ToneLayerFilter {
 
 		//饱和度调节
 		ColorMatrix saturationColorMatrix = new ColorMatrix();
-		if(saturation>0){
+		if(saturation>=0){
 			saturationColorMatrix.setSaturation(saturation);
 		}
 
 		//亮度调节
 		ColorMatrix lumMatrix = new ColorMatrix();
-		if(lum>0){
+		if(lum>=0){
 			lumMatrix.setScale(lum, lum, lum, 1);
 		}
 		mAllMatrix.reset();
@@ -85,4 +101,6 @@ public class ToneLayerFilter {
 		// 返回新的位图，也即调色处理后的图片
 		return bmp;
 	}
+
+
 }
