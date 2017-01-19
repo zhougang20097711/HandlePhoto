@@ -12,8 +12,8 @@ import android.util.Log;
 public class ImageSketchFilter {
 	/**
 	 * 获取素描图片的算法
-	 * @param bmp
-	 * @return
+	 * @param bmp 原图
+	 * @return  效果图
 	 */
 	public static Bitmap sketchImage(Bitmap bmp) {
 		long start = System.currentTimeMillis();
@@ -22,11 +22,13 @@ public class ImageSketchFilter {
 		int height = bmp.getHeight();
 		int[] pixSrc = new int[width * height];
 		int[] pixNvt = new int[width * height];
+		//创建位图
 		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
 
 		// 先对图象的像素处理成灰度颜色后再取反
 		bmp.getPixels(pixSrc, 0, width, 0, 0, width, height);
 
+		//改动像素点值
 		for (row = 0; row < height; row++) {
 			for (col = 0; col < width; col++) {
 				pos = row * width + col;
@@ -56,7 +58,15 @@ public class ImageSketchFilter {
 		return bitmap;
 	}
 
-
+	/**
+	 * 对取反的像素进行高斯模糊
+	 * @param psrc
+	 * @param horz
+	 * @param vert
+	 * @param width
+	 * @param height
+	 * @return
+	 */
 	private static int gaussGray(int[] psrc, double horz, double vert, int width, int height) {
 		int[] dst, src;
 		double[] n_p, n_m, d_p, d_m, bd_p, bd_m;
@@ -193,8 +203,16 @@ public class ImageSketchFilter {
 	}
 
 
-
-
+	/**
+	 * 初试化常量
+	 * @param n_p
+	 * @param n_m
+	 * @param d_p
+	 * @param d_m
+	 * @param bd_p
+	 * @param bd_m
+	 * @param std_dev
+	 */
 	private static void findConstants(double[] n_p, double[] n_m, double[] d_p, double[] d_m, double[] bd_p,
 									  double[] bd_m, double std_dev) {
 		double div = Math.sqrt(2 * 3.141593) * std_dev;
@@ -256,7 +274,14 @@ public class ImageSketchFilter {
 		}
 	}
 
-
+	/**
+	 * 改变目标像素集合值
+	 * @param src1
+	 * @param src2
+	 * @param dest
+	 * @param bytes
+	 * @param width
+	 */
 	private static void transferGaussPixels(double[] src1, double[] src2, int[] dest, int bytes, int width) {
 		int i, j, k, b;
 		int bend = bytes * width;

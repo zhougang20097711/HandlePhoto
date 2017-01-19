@@ -3,6 +3,7 @@ package com.ab.umphotolib.filter;
 import android.graphics.Bitmap;
 
 /**
+ * 高斯模糊器
  * Created by AB051788 on 2017/1/12.
  */
 public class GaussianBlurFilter {
@@ -15,12 +16,24 @@ public class GaussianBlurFilter {
 	// / </summary>
 	public float Sigma = 0.75f;
 
-	private ImagePixelsArrayHandle image = null;
 
+	private ImagePixelsArrayHandle image = null; //像素点控制矩阵
+
+	/**
+	 * 构造方法
+	 * @param bmp
+	 */
 	public GaussianBlurFilter(Bitmap bmp) {
 		image = new ImagePixelsArrayHandle(bmp);
 	}
 
+	/**
+	 * 模糊算法
+	 * @param srcPixels
+	 * @param width
+	 * @param height
+	 * @return
+	 */
 	float[] ApplyBlur(float[] srcPixels, int width, int height) {
 		float[] destPixels = new float[srcPixels.length];
 		System.arraycopy(srcPixels, 0, destPixels, 0, srcPixels.length);
@@ -92,6 +105,13 @@ public class GaussianBlurFilter {
 		}
 	}
 
+	/**
+	 * 像素偏移
+	 * @param imageIn
+	 * @param width
+	 * @param height
+	 * @return
+	 */
 	float[] ConvertImageWithPadding(ImagePixelsArrayHandle imageIn, int width, int height) {
 		int newheight = height + Padding * 2;
 		int newwidth = width + Padding * 2;
@@ -127,6 +147,10 @@ public class GaussianBlurFilter {
 		return numArray;
 	}
 
+	/**
+	 * 获取高斯模糊变换后的效果
+	 * @return
+	 */
 	public ImagePixelsArrayHandle imageProcess() {
 		int width = image.getWidth();
 		int height = image.getHeight();

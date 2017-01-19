@@ -3,10 +3,11 @@ package com.ab.umphotolib.filter;
 import android.graphics.Bitmap;
 
 /**
+ * 亮度过滤器
  * Created by AB051788 on 2017/1/12.
  */
 public class BrightContrastFilter {
-
+//像素点集 控制器
 	private ImagePixelsArrayHandle image = null;
 
 	public float BrightnessFactor = 0.25f;
@@ -24,7 +25,10 @@ public class BrightContrastFilter {
 		this.image = image;
 	}
 
-
+	/**
+	 * 根据算法修改对应像素点的值
+	 * @return
+	 */
 	public ImagePixelsArrayHandle imageProcess() {
 		int width = image.getWidth();
 		int height = image.getHeight();

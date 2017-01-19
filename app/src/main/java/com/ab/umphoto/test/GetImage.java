@@ -12,6 +12,8 @@ import com.ab.umphoto.MyApplication;
 import com.ab.umphoto.R;
 import com.ab.umphotolib.UMPhotoUtils;
 
+import java.io.FileNotFoundException;
+
 /**
  * Created by AB051788 on 2017/1/5.
  */
@@ -48,7 +50,11 @@ public class GetImage extends Activity {
 				if (TextUtils.isEmpty(path)) {
 					return;
 				}
-				imageview.setImageBitmap(UMPhotoUtils.getBitmapByPath(path));
+				try {
+					imageview.setImageBitmap(UMPhotoUtils.getBitmapByPath(path));
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}

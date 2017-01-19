@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * 图片类型的判断
  * Created by AB051788 on 2017/1/4.
  */
 public class ImageTypeFilter {
@@ -13,8 +14,8 @@ public class ImageTypeFilter {
 	public static final String BMP = "BMP";
 	/**
 	 * 获取图片的类型信息
-	 * @param in
-	 * @return
+	 * @param in 输入流
+	 * @return  返回类型的字符串 "PNG"  "JPEG"  "GIF" "BMP"  null
 	 * @see #getImageType(byte[])
 	 */
 	public static String getImageType(InputStream in) {
@@ -23,7 +24,7 @@ public class ImageTypeFilter {
 		}
 		try {
 			byte[] bytes = new byte[8];
-			in.read(bytes);
+			in.read(bytes);    //获取前8字节判断
 			return getImageType(bytes);
 		} catch (IOException e) {
 			return null;
@@ -31,11 +32,11 @@ public class ImageTypeFilter {
 	}
 
 	/**
-	 * 获取图片的类型信息
+	 * 根据字节数组判断图片类型信息
 	 *
 	 * @param bytes
-	 *            2~8 byte at beginning of the image file
-	 * @return image mimetype or null if the file is not image
+	 *            文件开始的2~8字节数组
+	 * @return  返回类型的字符串 "PNG"  "JPEG"  "GIF" "BMP"  null
 	 */
 	public static String getImageType(byte[] bytes) {
 		if (isJPEG(bytes)) {
@@ -53,6 +54,11 @@ public class ImageTypeFilter {
 		return null;
 	}
 
+	/**
+	 *判断是否为JPEG
+	 * @param b 数组
+	 * @return true false
+	 */
 	private static boolean isJPEG(byte[] b) {
 		if (b.length < 2) {
 			return false;
@@ -60,6 +66,11 @@ public class ImageTypeFilter {
 		return (b[0] == (byte) 0xFF) && (b[1] == (byte) 0xD8);
 	}
 
+	/**
+	 *判断是否为GIF
+	 * @param b 数组
+	 * @return true false
+	 */
 	private static boolean isGIF(byte[] b) {
 		if (b.length < 6) {
 			return false;
@@ -68,6 +79,11 @@ public class ImageTypeFilter {
 				&& (b[4] == '7' || b[4] == '9') && b[5] == 'a';
 	}
 
+	/**
+	 *判断是否为PNG
+	 * @param b 数组
+	 * @return true false
+	 */
 	private static boolean isPNG(byte[] b) {
 		if (b.length < 8) {
 			return false;
@@ -77,6 +93,11 @@ public class ImageTypeFilter {
 				&& b[6] == (byte) 26 && b[7] == (byte) 10);
 	}
 
+	/**
+	 *判断是否为BMP
+	 * @param b 数组
+	 * @return true false
+	 */
 	private static boolean isBMP(byte[] b) {
 		if (b.length < 2) {
 			return false;
